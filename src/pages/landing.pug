@@ -10,8 +10,9 @@ include ../mixins/icons
   canvas#confetti-canvas.confetti
 
   #lucky-draw
-    img.title(src="~@images/title.svg" alt="Lucky Draw")
-
+    img.title(src="~@images/logo-levadura-regalona.svg" alt="Logo Banco Guayaquil")
+    img.title(src="~@images/auto.png" alt="Celebración")
+    p#variable-text.input-label Inicia el sorteo para seleccionar al ganador
     .slot
       .slot__outer
         .slot__inner
@@ -21,28 +22,34 @@ include ../mixins/icons
       #sunburst.sunburst
         img(src="~@images/sunburst.svg" alt="sunburst")
 
-    button#draw-button.solid-button Draw
+    button#draw-button.solid-button Comenzar 🤞🏼
 
   #settings.settings
-    #settings-panel.settings__panel
-      div.settings__panel__group
-        h1.settings__title Settings
-        div.input-group
-          label.input-label(for="name-list") Name List
-          textarea.input-field.input-field--textarea(rows="8" placeholder="Separate each name by line break" id="name-list")
+  #settings-panel.settings__panel
+    div.settings__panel__group
+      div.align--right
+        a#downloadWinners Descargar datos
 
-        div.input-group.input-group--2-column
-          label.input-label(for="remove-from-list") Remove winner from list
-          label.input--switch
-            input(type="checkbox" checked="true" id="remove-from-list")
-            span.slider
+      h1.settings__title Configurar
+      div.input-group
+        label.input-label(for="name-list") Lista de nombres
+        textarea.input-field.input-field--textarea(rows="7" placeholder="Cada nombre debe estar en una nueva línea" id="name-list")
+      div.input-group
+        select#premio.input-field.input-field--select(name="premio")
+          option(value="") Seleccionar premio...
 
-        div.input-group.input-group--2-column
-          label.input-label(for="enable-sound") Enable sound effect
-          label.input--switch
-            input(type="checkbox" checked="true" id="enable-sound")
-            span.slider
-      div.settings__panel__group
-        button#settings-save.solid-button.solid-button Save
-        button#settings-close.solid-button.solid-button--danger Discard and close
+      div.input-group.input-group--2-column
+        label.input-label(for="remove-from-list") Remover al ganador de la lista
+        label.input--switch
+          input(type="checkbox" checked="true" id="remove-from-list")
+          span.slider
+
+      div.input-group.input-group--2-column.hide
+        label.input-label(for="enable-sound") Habilitar sonido
+        label.input--switch
+          input(type="checkbox" checked="true" id="enable-sound")
+          span.slider
+    div.settings__panel__group
+      button#settings-save.solid-button.solid-button Guardar
+      button#settings-close.solid-button.solid-button--danger Cancelar
 

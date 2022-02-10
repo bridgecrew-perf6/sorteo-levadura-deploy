@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap");
 
 *:not(input, textarea, select) {
   -webkit-user-select: none;
@@ -23,9 +23,9 @@ body {
   height: 100%;
   font-size: 16px;
   line-height: 1.5;
-  font-family: 'Nunito Sans', 微軟正黑體, 'Microsoft JhengHei',
-    'Microsoft JhengHei UI', 'Microsoft YaHei', 'Microsoft YaHei UI',
-    'PingFang TC', 'Lantinghei TC', 'Heiti TC', 'Apple LiGothic', 'PMingLiU',
+  font-family: "Nunito Sans", 微軟正黑體, "Microsoft JhengHei",
+    "Microsoft JhengHei UI", "Microsoft YaHei", "Microsoft YaHei UI",
+    "PingFang TC", "Lantinghei TC", "Heiti TC", "Apple LiGothic", "PMingLiU",
     Arial, sans-serif;
 }
 
@@ -42,15 +42,8 @@ body {
 }
 
 .theme--red {
-  background: linear-gradient(
-    240deg,
-    $color-red-step1 0.13%,
-    $color-red-step2 26.19%,
-    $color-red-step3 52.6%,
-    $color-red-step4 79.08%,
-    $color-red-step5 100%
-  );
-  color: $color-text-light;
+  background: radial-gradient(#fffcf385, #ffd14f2e);
+  color: #ffffff;
 }
 
 .theme--purple {
@@ -78,10 +71,11 @@ body {
 .footer {
   width: 100%;
   padding: 0.3125rem;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   text-align: center;
   box-sizing: border-box;
   flex: 0 1 auto;
+  color: darken($color-blue,5%);
 }
 
 a {

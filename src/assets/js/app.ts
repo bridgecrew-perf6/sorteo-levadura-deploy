@@ -1,7 +1,8 @@
 import confetti from 'canvas-confetti';
 import Slot from '@js/Slot';
 import SoundEffects from '@js/SoundEffects';
-
+import premioList from '@js/premioList';
+import exportDataFromLocalStorage from '@js/download';
 // Initialize slot machine
 (() => {
   const drawButton = document.getElementById('draw-button') as HTMLButtonElement | null;
@@ -16,33 +17,44 @@ import SoundEffects from '@js/SoundEffects';
   const nameListTextArea = document.getElementById('name-list') as HTMLTextAreaElement | null;
   const removeNameFromListCheckbox = document.getElementById('remove-from-list') as HTMLInputElement | null;
   const enableSoundCheckbox = document.getElementById('enable-sound') as HTMLInputElement | null;
-
+  const variableText = document.getElementById('variable-text') as HTMLInputElement | null;
+  const selectPremios = document.getElementById('premio') as HTMLSelectElement | null;
+  const downloadContainer = document.querySelector('#downloadWinners') as HTMLAnchorElement | null;
   // Graceful exit if necessary elements are not found
-  if (!(
-    drawButton
-    && fullscreenButton
-    && settingsButton
-    && settingsWrapper
-    && settingsContent
-    && settingsSaveButton
-    && settingsCloseButton
-    && sunburstSvg
-    && confettiCanvas
-    && nameListTextArea
-    && removeNameFromListCheckbox
-    && enableSoundCheckbox
-  )) {
+  if (
+    !(
+      drawButton
+      && fullscreenButton
+      && settingsButton
+      && settingsWrapper
+      && settingsContent
+      && settingsSaveButton
+      && settingsCloseButton
+      && sunburstSvg
+      && confettiCanvas
+      && nameListTextArea
+      && removeNameFromListCheckbox
+      && enableSoundCheckbox
+      && variableText
+      && selectPremios
+      && downloadContainer
+    )
+  ) {
     console.error('One or more Element ID is invalid. This is possibly a bug.');
     return;
   }
-
+  if (localStorage.length > 0) {
+    downloadContainer.style.display = 'block';
+  }
+  /* Cargar los premios en el select */
+  premioList(selectPremios);
   if (!(confettiCanvas instanceof HTMLCanvasElement)) {
     console.error('Confetti canvas is not an instance of Canvas. This is possibly a bug.');
     return;
   }
 
   const soundEffects = new SoundEffects();
-  const MAX_REEL_ITEMS = 40;
+  const MAX_REEL_ITEMS = 50;
   const CONFETTI_COLORS = ['#26ccff', '#a25afd', '#ff5e7e', '#88ff5a', '#fcff42', '#ffa62d', '#ff36ff'];
   let confettiAnimationId;
 
@@ -83,6 +95,7 @@ import SoundEffects from '@js/SoundEffects';
     drawButton.disabled = true;
     settingsButton.disabled = true;
     soundEffects.spin((MAX_REEL_ITEMS - 1) / 10);
+    variableText.textContent = 'Sorteando ganador';
   };
 
   /**  Functions to be trigger after spinning */
@@ -92,11 +105,16 @@ import SoundEffects from '@js/SoundEffects';
     await soundEffects.win();
     drawButton.disabled = false;
     settingsButton.disabled = false;
+    variableText.textContent = `¡FELICIDADES! ${selectPremios.value}`;
+    if (localStorage.length > 0) {
+      downloadContainer.style.display = 'block';
+    }
   };
 
   /** Slot instance */
   const slot = new Slot({
     reelContainerSelector: '#reel',
+    awardContainerSelector: '#premio',
     maxReelItems: MAX_REEL_ITEMS,
     onSpinStart,
     onSpinEnd,
@@ -109,12 +127,14 @@ import SoundEffects from '@js/SoundEffects';
     removeNameFromListCheckbox.checked = slot.shouldRemoveWinnerFromNameList;
     enableSoundCheckbox.checked = !soundEffects.mute;
     settingsWrapper.style.display = 'block';
+    settingsContent.classList.toggle('openpanel');
   };
 
   /** To close the setting page */
   const onSettingsClose = () => {
     settingsContent.scrollTop = 0;
     settingsWrapper.style.display = 'none';
+    settingsContent.classList.toggle('openpanel');
   };
 
   // Click handler for "Draw" button
@@ -159,4 +179,6 @@ import SoundEffects from '@js/SoundEffects';
 
   // Click handler for "Discard and close" button for setting page
   settingsCloseButton.addEventListener('click', onSettingsClose);
+  // Click handler for "Descargar datos" button for setting page
+  downloadContainer.addEventListener('click', exportDataFromLocalStorage, false);
 })();

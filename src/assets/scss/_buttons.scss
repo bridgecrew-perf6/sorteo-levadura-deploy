@@ -2,11 +2,11 @@
   display: inline-block;
   border: none;
   appearance: none;
-  @include shadow('large') border-radius: 0.625rem;
+  @include shadow("large") border-radius: 0.625rem;
   background-color: $color-button-default-background;
   color: $color-button-text;
   padding: 1rem 0.625rem;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   line-height: 1.75rem;
   font-weight: 700;
   font-family: inherit;
@@ -17,6 +17,7 @@
   outline: none;
 
   &:hover {
+    color: $color-white;
     background-color: $color-button-default-hover-background;
   }
 
@@ -32,7 +33,7 @@
 .solid-button--danger {
   background-color: $color-button-danger-background;
   color: $color-button-text;
-
+  margin-left: 20px;
   &:hover {
     background-color: $color-button-danger-hover-background;
   }
@@ -71,7 +72,7 @@
   }
 
   &:hover {
-    color: $color-link-hover;
+    color: $color-black;
   }
 
   &:disabled {

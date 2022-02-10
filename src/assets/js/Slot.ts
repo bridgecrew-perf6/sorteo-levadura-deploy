@@ -5,6 +5,8 @@ interface SlotConfigurations {
   removeWinner?: boolean;
   /** User configuration for element selector which reel items should append to */
   reelContainerSelector: string;
+  /** User configuration for element selector which award selected */
+  awardContainerSelector: string;
   /** User configuration for callback function that runs before spinning reel */
   onSpinStart?: () => void;
   /** User configuration for callback function that runs after spinning reel */
@@ -22,6 +24,9 @@ export default class Slot {
   /** Container that hold the reel items */
   private reelContainer: HTMLElement | null;
 
+  /** Container that hold the reel items */
+  private awardContainer: HTMLSelectElement | null;
+
   /** Maximum item inside a reel */
   private maxReelItems: NonNullable<SlotConfigurations['maxReelItems']>;
 
@@ -38,28 +43,31 @@ export default class Slot {
   private onSpinEnd?: NonNullable<SlotConfigurations['onSpinEnd']>;
 
   /** Callback function that runs after spinning reel */
-  private onNameListChanged?: NonNullable<SlotConfigurations['onNameListChanged']>;
+  private onNameListChanged?: NonNullable<
+    SlotConfigurations['onNameListChanged']
+  >;
 
   /**
    * Constructor of Slot
    * @param maxReelItems  Maximum item inside a reel
    * @param removeWinner  Whether winner should be removed from name list
    * @param reelContainerSelector  The element ID of reel items to be appended
+   * @param awardContainerSelector  The element ID of reel items to be appended
    * @param onSpinStart  Callback function that runs before spinning reel
    * @param onNameListChanged  Callback function that runs when user updates the name list
    */
-  constructor(
-    {
-      maxReelItems = 30,
-      removeWinner = true,
-      reelContainerSelector,
-      onSpinStart,
-      onSpinEnd,
-      onNameListChanged
-    }: SlotConfigurations
-  ) {
+  constructor({
+    maxReelItems = 100,
+    removeWinner = true,
+    reelContainerSelector,
+    awardContainerSelector,
+    onSpinStart,
+    onSpinEnd,
+    onNameListChanged
+  }: SlotConfigurations) {
     this.nameList = [];
     this.reelContainer = document.querySelector(reelContainerSelector);
+    this.awardContainer = document.querySelector(awardContainerSelector);
     this.maxReelItems = maxReelItems;
     this.shouldRemoveWinner = removeWinner;
     this.onSpinStart = onSpinStart;
@@ -71,7 +79,11 @@ export default class Slot {
       [
         { transform: 'none' },
         // Althought -calc(100% - 7rem) is more accurate, it is not working for pollyfilled version
-        { transform: `translateY(-${(100 / this.maxReelItems) * (this.maxReelItems - 1)}%)` }
+        {
+          transform: `translateY(-${
+            (100 / this.maxReelItems) * (this.maxReelItems - 1)
+          }%)`
+        }
       ],
       {
         duration: this.maxReelItems * 100, // 100ms for 1 item
@@ -94,8 +106,7 @@ export default class Slot {
       ? Array.from(this.reelContainer.children)
       : [];
 
-    reelItemsToRemove
-      .forEach((element) => element.remove());
+    reelItemsToRemove.forEach((element) => element.remove());
 
     if (this.onNameListChanged) {
       this.onNameListChanged();
@@ -127,11 +138,11 @@ export default class Slot {
    * @returns The shuffled array
    */
   private static shuffleNames<T = unknown>(array: T[]): T[] {
-    const keys = Object.keys(array) as unknown[] as number[];
+    const keys = (Object.keys(array) as unknown[]) as number[];
     const result: T[] = [];
     for (let k = 0, n = keys.length; k < array.length && n > 0; k += 1) {
       // eslint-disable-next-line no-bitwise
-      const i = Math.random() * n | 0;
+      const i = (Math.random() * n) | 0;
       const key = keys[i];
       result.push(array[key]);
       n -= 1;
@@ -148,7 +159,7 @@ export default class Slot {
    */
   public async spin(): Promise<boolean> {
     if (!this.nameList.length) {
-      console.error('Name List is empty. Cannot start spinning.');
+      console.error('Lista de nombres vacia. No puede iniciar el sorteo.');
       return false;
     }
 
@@ -156,14 +167,16 @@ export default class Slot {
       this.onSpinStart();
     }
 
-    const { reelContainer, reelAnimation, shouldRemoveWinner } = this;
+    const {
+      reelContainer, awardContainer, reelAnimation, shouldRemoveWinner
+    } = this;
     if (!reelContainer || !reelAnimation) {
       return false;
     }
 
     // Shuffle names and create reel items
     let randomNames = Slot.shuffleNames<string>(this.nameList);
-
+    // reelContainer.innerHTML="Sorteando...";
     while (randomNames.length && randomNames.length < this.maxReelItems) {
       randomNames = [...randomNames, ...randomNames];
     }
@@ -183,11 +196,20 @@ export default class Slot {
     console.log('Displayed items: ', randomNames);
     console.log('Winner: ', randomNames[randomNames.length - 1]);
 
+    const awardName: string = awardContainer?.value || '';
+
+    if ('localStorage' in window) {
+      localStorage.setItem(randomNames[randomNames.length - 1], awardName);
+    }
+    // reelContainer.innerHTML= `<div>${randomNames[randomNames.length - 1]}</div>`;
     // Remove winner form name list if necessary
     if (shouldRemoveWinner) {
-      this.nameList.splice(this.nameList.findIndex(
-        (name) => name === randomNames[randomNames.length - 1]
-      ), 1);
+      this.nameList.splice(
+        this.nameList.findIndex(
+          (name) => name === randomNames[randomNames.length - 1]
+        ),
+        1
+      );
     }
     console.log('Remaining: ', this.nameList);
 

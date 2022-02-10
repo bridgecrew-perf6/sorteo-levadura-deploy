@@ -2,7 +2,16 @@
   width: 100%;
   text-align: center;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   z-index: $z-index-lucky-draw; // make sure contents are on top of confetting
+  .title:nth-child(2) {
+    max-width: 19.8rem;
+  }
+  p {
+    color: $color-black;
+  }
 }
 
 .title {
@@ -40,14 +49,14 @@
     padding: $slot-border-width;
     margin: 0 auto;
     border-radius: $slot-border-radius;
-    @include shadow('large');
-    background: $color-slot-background url(@images/light-blubs.svg);
+    @include shadow("large");
+    background: $color-slot-background;
     position: relative;
     z-index: $z-index-slot; // make sure slot is on top of sunburst
   }
 
   &__inner {
-    background-color: $color-slot-inner-background;
+    background-color: $color-yellow-step1;
     width: 100%;
     height: 100%;
     border-radius: $slot-border-radius;
@@ -90,7 +99,7 @@
 
   > div {
     height: $reel-item-height;
-    font-size: 3.75rem;
+    font-size: 2.85rem;
     font-weight: bold;
     text-align: center;
     line-height: $reel-item-height;
@@ -118,7 +127,7 @@
       line-height: max((1.75rem * $factor), 1rem);
       padding: 1rem * $factor 0.625rem * $factor;
       border-radius: 0.625rem * $factor;
-      @include shadow('large', $factor);
+      @include shadow("large", $factor);
     }
   }
 }
@@ -127,17 +136,16 @@
   position: fixed;
   z-index: $z-index-settings - 1;
   background-color: $color-settings-mask;
-  content: ' ';
+  content: " ";
+  display: none;
   top: 0;
   right: 0;
   height: 100%;
   width: 100%;
-  display: none;
-
   &__panel {
     position: fixed;
     top: 0;
-    right: 0;
+    right: -530px;
     z-index: $z-index-settings;
     display: flex;
     flex-direction: column;
@@ -148,13 +156,15 @@
     padding: 3.125rem 3.125rem 0 3.125rem;
     overflow: auto;
     -webkit-overflow-scrolling: auto;
-
+    transition: all 0.4s ease-in;
     // Worksround for firefox overflow padding bottom issue
     // https://bugzilla.mozilla.org/show_bug.cgi?id=748518
     &__group:last-child {
       padding-bottom: 3.125rem;
     }
-
+    &.openpanel {
+      transform: translateX(-530px);
+    }
     @media #{$mobile} {
       padding: 10% 10% 0 10%;
 
@@ -179,8 +189,7 @@
 }
 
 .theme--red .settings__panel {
-  background-color: $color-settings-background-red;
-  color: $color-text-light;
+  background-color: $color-blue;
 }
 
 .theme--purple .settings__panel {
@@ -220,4 +229,10 @@
   left: 0;
   z-index: $z-index-confetti;
   pointer-events: none;
+}
+#downloadWinners{
+  color:$color-white;
+  font-size: 16px;
+  cursor: pointer;
+  display: none;
 }

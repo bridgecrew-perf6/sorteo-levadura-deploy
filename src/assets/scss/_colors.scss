@@ -3,43 +3,46 @@ $color-light-grey: #e8e8e8;
 $color-mid-grey: #999999;
 $color-dark-grey: #666666;
 $color-black: #000000;
+$color-blue: #063d8d;
 
-$color-red-step1: #ff462d;
-$color-red-step2: #ff422f;
-$color-red-step3: #ff3634;
-$color-red-step4: #ff223c;
-$color-red-step5: #ff0c45;
+$color-red-step1: #b90e77;
+$color-red-step2: #b40f75;
+$color-red-step3: #b61578;
+$color-red-step4: #bc157c;
+$color-red-step5: #bc157c;
 
-$color-purple-step1: #7e3efd;
-$color-purple-step2: #7b3df9;
-$color-purple-step3: #7039ed;
-$color-purple-step4: #5f32d8;
-$color-purple-step5: #4828bc;
-$color-purple-step6: #3f25b2;
+$color-purple-step1: #b90e77;
+$color-purple-step2: #b40f75;
+$color-purple-step3: #b61578;
+$color-purple-step4: #bc157c;
+$color-purple-step5: #bc157c;
+$color-purple-step6: #bc157c;
 
-$color-yellow: #ffbf1f;
-$color-blod-orange: #e54c23;
+$color-yellow-step1: #ffd14f;
+$color-yellow-step2: #feab29;
+
+$color-blod-orange: #e43124;
 $color-shadow: rgba($color-black, 0.2);
 
 // body
-$color-text-light: $color-white;
+$color-text-light: $color-purple-step6;
 $color-text-dark: $color-black;
-$color-link: rgba($color-white, 0.8);
+$color-link: rgba($color-blue, 0.8);
 $color-link-hover: rgba($color-white, 0.9);
 
 // button
 $color-button-text: $color-white;
-$color-button-default-background: $color-yellow;
-$color-button-default-hover-background: lighten($color-yellow, 5%);
+$color-button-default-background: $color-yellow-step2;
+$color-button-default-hover-background: lighten($color-yellow-step2, 5%);
 $color-button-danger-background: $color-blod-orange;
 $color-button-danger-hover-background: lighten($color-blod-orange, 5%);
 
 // title
 $color-title: $color-white;
-$color-title-border: $color-yellow;
+$color-title-border: $color-blue;
 
 // slot
-$color-slot-background: $color-yellow;
+$color-slot-background: $color-blue;
 $color-slot-shadow: $color-shadow;
 $color-slot-inner-background: $color-white;
 $color-slot-text: $color-black;
@@ -56,5 +59,5 @@ $color-input-text: $color-black;
 
 // switch
 $color-switch-handle-disabled: $color-dark-grey;
-$color-switch-handle-red: darken($color-red-step5, 8%);
-$color-switch-handle-purple: darken($color-purple-step6, 8%);
+$color-switch-handle-red: darken($color-yellow-step1, 8%);
+$color-switch-handle-purple: darken($color-yellow-step1, 8%);

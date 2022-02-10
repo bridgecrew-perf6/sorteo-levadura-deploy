@@ -1,6 +1,8 @@
 .input-group {
-  margin: 0 0 4rem 0;
-
+  margin: 0 0 2rem 0;
+  &.hide {
+    display: none;
+  }
   &--2-column {
     display: flex;
     justify-content: space-between;
@@ -13,9 +15,9 @@
 }
 
 .input-label {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.1rem;
   display: inline-block;
 }
 
@@ -31,7 +33,7 @@
   outline: none;
   width: 100%;
   box-sizing: border-box;
-  @include shadow('large');
+  @include shadow("large");
 
   &:read-only {
     background-color: $color-input-background;
@@ -81,7 +83,10 @@
   max-width: 100%;
   resize: vertical;
 }
-
+.input-field--select {
+  padding: 1rem 1.875rem;
+  font-size: 1rem;
+}
 .input--switch {
   position: relative;
   display: inline-block;
@@ -89,7 +94,7 @@
   height: $switch-slider-height;
   border-radius: $switch-slider-height;
   flex: 0 0 $switch-slider-width;
-  @include shadow('small') margin: 0 0 0 1rem;
+  @include shadow("small") margin: 0 0 0 1rem;
 
   .slider {
     position: absolute;
@@ -105,7 +110,7 @@
 
     &:before {
       position: absolute;
-      content: '';
+      content: "";
       height: $switch-handle-diameter;
       width: $switch-handle-diameter;
       left: $switch-slider-padding;

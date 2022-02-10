@@ -1,4 +1,4 @@
-import { PIANO_KEYS, PianoKey } from '@js/constants';
+import { PIANO_KEYS, PianoKey } from "@js/constants";
 
 interface SoundConfig {
   /** Oscillator type, can be "sawtooth" | "sine" | "square" | "triangle" */
@@ -24,11 +24,10 @@ export default class SoundEffects {
   /** Indicator for whether this sound effect instance is muted */
   private isMuted: boolean;
 
-  constructor(isMuted = false) {
+  constructor(isMuted = true) {
     if (window.AudioContext || window.webkitAudioContext) {
       this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
-
     this.isMuted = isMuted;
   }
 
@@ -49,7 +48,14 @@ export default class SoundEffects {
    * @param config.easeOut  Whether to ease out to 1% during last 100ms
    * @param config.volume  Volume of the sound to play, value should be between 0.1 and 1
    */
-  private playSound(sound: SoundSeries[], { type = 'sine', easeOut: shouldEaseOut = true, volume = 0.1 }: SoundConfig = {}): void {
+  private playSound(
+    sound: SoundSeries[],
+    {
+      type = "sine",
+      easeOut: shouldEaseOut = true,
+      volume = 0.1,
+    }: SoundConfig = {}
+  ): void {
     const { audioContext } = this;
 
     // graceful exit for browsers that don't support AudioContext
@@ -69,14 +75,23 @@ export default class SoundEffects {
     const { currentTime: audioCurrentTime } = audioContext;
 
     const totalDuration = sound.reduce((currentNoteTime, { key, duration }) => {
-      oscillator.frequency.setValueAtTime(PIANO_KEYS[key], audioCurrentTime + currentNoteTime);
+      oscillator.frequency.setValueAtTime(
+        PIANO_KEYS[key],
+        audioCurrentTime + currentNoteTime
+      );
       return currentNoteTime + duration;
     }, 0);
 
     // ease out to 1% during last 100ms
     if (shouldEaseOut) {
-      gainNode.gain.exponentialRampToValueAtTime(volume, audioCurrentTime + totalDuration - 0.1);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCurrentTime + totalDuration);
+      gainNode.gain.exponentialRampToValueAtTime(
+        volume,
+        audioCurrentTime + totalDuration - 0.1
+      );
+      gainNode.gain.exponentialRampToValueAtTime(
+        0.01,
+        audioCurrentTime + totalDuration
+      );
     }
 
     oscillator.start(audioCurrentTime);
@@ -93,17 +108,19 @@ export default class SoundEffects {
     }
 
     const musicNotes: SoundSeries[] = [
-      { key: 'C4', duration: 0.2 },
-      { key: 'D4', duration: 0.2 },
-      { key: 'E4', duration: 0.2 },
-      { key: 'G4', duration: 0.225 },
-      { key: 'E4', duration: 0.175 },
-      { key: 'G4', duration: 0.9 }
+      { key: "C4", duration: 0.2 },
+      { key: "D4", duration: 0.2 },
+      { key: "E4", duration: 0.2 },
+      { key: "G4", duration: 0.225 },
+      { key: "E4", duration: 0.175 },
+      { key: "G4", duration: 0.9 },
     ];
-    const totalDuration = musicNotes
-      .reduce((currentNoteTime, { duration }) => currentNoteTime + duration, 0);
+    const totalDuration = musicNotes.reduce(
+      (currentNoteTime, { duration }) => currentNoteTime + duration,
+      0
+    );
 
-    this.playSound(musicNotes, { type: 'triangle', volume: 1, easeOut: true });
+    this.playSound(musicNotes, { type: "triangle", volume: 1, easeOut: true });
 
     return new Promise<boolean>((resolve) => {
       setTimeout(() => {
@@ -123,18 +140,20 @@ export default class SoundEffects {
     }
 
     const musicNotes: SoundSeries[] = [
-      { key: 'D#3', duration: 0.1 },
-      { key: 'C#3', duration: 0.1 },
-      { key: 'C3', duration: 0.1 }
+      { key: "D#3", duration: 0.1 },
+      { key: "C#3", duration: 0.1 },
+      { key: "C3", duration: 0.1 },
     ];
 
-    const totalDuration = musicNotes
-      .reduce((currentNoteTime, { duration }) => currentNoteTime + duration, 0);
+    const totalDuration = musicNotes.reduce(
+      (currentNoteTime, { duration }) => currentNoteTime + duration,
+      0
+    );
 
     const duration = Math.floor(durationInSecond * 10);
     this.playSound(
       Array.from(Array(duration), (_, index) => musicNotes[index % 3]),
-      { type: 'triangle', easeOut: false, volume: 2 }
+      { type: "triangle", easeOut: false, volume: 2 }
     );
 
     return new Promise<boolean>((resolve) => {
