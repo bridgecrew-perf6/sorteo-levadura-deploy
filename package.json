@@ -5,6 +5,8 @@
   "private": true,
   "homepage":"https://cesarfrin.github.io/sorteo-levadura-deploy",
   "scripts": {
+    "predeploy":"npm run build",
+    "deploy":"gh-pages -d build",
     "build": "webpack --config webpack/webpack.prod.conf.js",
     "start": "webpack serve --open --config webpack/webpack.dev.conf.js",
     "first-release": "npx standard-version --commit-all --tag-prefix v --release-as 1.0.0 --infile CHANGELOG.md",
