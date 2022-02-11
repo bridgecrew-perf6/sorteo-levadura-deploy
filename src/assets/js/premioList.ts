@@ -1,9 +1,10 @@
 function premioList(selectPremio: HTMLSelectElement) : void {
   const premios: Array<string> = [
+    'Orden de compra de $25',
     'Orden de compra de $50',
     'Orden de compra de $100',
-    'Orden de compra de $150',
-    'Orden de compra de $200'
+    'Kit 5 Uniformes Panaderos',
+    '1 Carro 0km'
   ];
 
   const fragment = document.createDocumentFragment();

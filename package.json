@@ -1,18 +1,14 @@
 {
   "name": "random-name-picker",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Simple HTML5 random name picker for picking lucky draw winner using Web Animations and AudioContext API.",
   "private": true,
-  "homepage":"https://cesarfrin.github.io/sorteo-levadura-deploy",
+  "homepage": "https://cesarfrin.github.io/sorteo-levadura-deploy",
   "scripts": {
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "webpack --config webpack/webpack.prod.conf.js",
-    "start": "webpack serve --open --config webpack/webpack.dev.conf.js",
-    "first-release": "npx standard-version --commit-all --tag-prefix v --release-as 1.0.0 --infile CHANGELOG.md",
-    "release": "npx standard-version --commit-all --tag-prefix v --infile CHANGELOG.md",
-    "prepare": "husky install",
-    "extract-latest-change-log": "node scripts/extractLatestChangeLog.js"
+    "start": "webpack serve --open --config webpack/webpack.dev.conf.js"
   },
   "author": "Ice Lam",
   "license": "ISC",
@@ -40,7 +36,6 @@
     "html-loader": "^1.1.0",
     "html-variables-plugin": "^1.0.0",
     "html-webpack-plugin": "^5.0.0",
-    "husky": "^5.1.3",
     "lint-staged": "^10.5.4",
     "mini-css-extract-plugin": "^1.3.6",
     "node-sass": "^5.0.0",

@@ -19,7 +19,8 @@ import exportDataFromLocalStorage from '@js/download';
   const enableSoundCheckbox = document.getElementById('enable-sound') as HTMLInputElement | null;
   const variableText = document.getElementById('variable-text') as HTMLInputElement | null;
   const selectPremios = document.getElementById('premio') as HTMLSelectElement | null;
-  const downloadContainer = document.querySelector('#downloadWinners') as HTMLAnchorElement | null;
+  const downloadButton = document.querySelector('#downloadWinners') as HTMLAnchorElement | null;
+  const premio = document.getElementById('premio-name') as HTMLSpanElement | null;
   // Graceful exit if necessary elements are not found
   if (
     !(
@@ -37,14 +38,15 @@ import exportDataFromLocalStorage from '@js/download';
       && enableSoundCheckbox
       && variableText
       && selectPremios
-      && downloadContainer
+      && downloadButton
+      && premio
     )
   ) {
     console.error('One or more Element ID is invalid. This is possibly a bug.');
     return;
   }
   if (localStorage.length > 0) {
-    downloadContainer.style.display = 'block';
+    downloadButton.style.display = 'block';
   }
   /* Cargar los premios en el select */
   premioList(selectPremios);
@@ -96,6 +98,7 @@ import exportDataFromLocalStorage from '@js/download';
     settingsButton.disabled = true;
     soundEffects.spin((MAX_REEL_ITEMS - 1) / 10);
     variableText.textContent = 'Sorteando ganador';
+    premio.textContent = '';
   };
 
   /**  Functions to be trigger after spinning */
@@ -105,21 +108,25 @@ import exportDataFromLocalStorage from '@js/download';
     await soundEffects.win();
     drawButton.disabled = false;
     settingsButton.disabled = false;
-    variableText.textContent = `¡FELICIDADES! ${selectPremios.value}`;
+    variableText.textContent = '¡FELICIDADES!';
+    premio.textContent = selectPremios.value;
     if (localStorage.length > 0) {
-      downloadContainer.style.display = 'block';
+      downloadButton.style.display = 'block';
     }
+    premio.textContent = selectPremios.value;
   };
 
   /** Slot instance */
-  const slot = new Slot({
-    reelContainerSelector: '#reel',
-    awardContainerSelector: '#premio',
-    maxReelItems: MAX_REEL_ITEMS,
-    onSpinStart,
-    onSpinEnd,
-    onNameListChanged: stopWinningAnimation
-  });
+  const slot = new Slot(
+    {
+      reelContainerSelector: '#reel',
+      awardContainerSelector: '#premio',
+      maxReelItems: MAX_REEL_ITEMS,
+      onSpinStart,
+      onSpinEnd,
+      onNameListChanged: stopWinningAnimation
+    }
+  );
 
   /** To open the setting page */
   const onSettingsOpen = () => {
@@ -180,5 +187,5 @@ import exportDataFromLocalStorage from '@js/download';
   // Click handler for "Discard and close" button for setting page
   settingsCloseButton.addEventListener('click', onSettingsClose);
   // Click handler for "Descargar datos" button for setting page
-  downloadContainer.addEventListener('click', exportDataFromLocalStorage, false);
+  downloadButton.addEventListener('click', exportDataFromLocalStorage, false);
 })();

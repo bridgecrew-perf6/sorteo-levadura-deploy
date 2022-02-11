@@ -7,7 +7,7 @@
   align-items: center;
   z-index: $z-index-lucky-draw; // make sure contents are on top of confetting
   .title:nth-child(2) {
-    max-width: 19.8rem;
+    max-width: 24.8rem;
   }
   p {
     color: $color-black;
@@ -96,10 +96,9 @@
 
 .reel {
   width: 100%;
-
   > div {
     height: $reel-item-height;
-    font-size: 2.85rem;
+    font-size: 2.2rem;
     font-weight: bold;
     text-align: center;
     line-height: $reel-item-height;
@@ -235,4 +234,11 @@
   font-size: 16px;
   cursor: pointer;
   display: none;
+}
+#premio-name{
+  color: #10af58;
+  font-size: 24px;
+  font-weight: 900;
+  margin-top: 20px;
+  animation: blinker 1s linear infinite;
 }

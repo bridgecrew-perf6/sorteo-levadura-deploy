@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.0.5](https://github.com/lupiodev/sorteo-levadura/compare/v1.0.4...v1.0.5) (2022-02-11)
+
+
+### Bug Fixes
+
+* fix the size of og-image ([b5a904e](https://github.com/lupiodev/sorteo-levadura/commit/b5a904ed70e465a34774b97662a16175304d0b16))
+
 ### [1.0.4](https://github.com/icelam/random-name-picker/compare/v1.0.3...v1.0.4) (2021-03-19)
 
 

@@ -73,7 +73,6 @@ export default class Slot {
     this.onSpinStart = onSpinStart;
     this.onSpinEnd = onSpinEnd;
     this.onNameListChanged = onNameListChanged;
-
     // Create reel animation
     this.reelAnimation = this.reelContainer?.animate(
       [
